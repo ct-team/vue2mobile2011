@@ -6,11 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build:online": "vue-cli-service build --mode production",
+    "build:online": "vue-cli-service build --mode production && gulp move --env production",
     "build:pre": "vue-cli-service build --mode pre && gulp move --env pre",
-    "build:test": "vue-cli-service build --mode ctest ",
-    "build:dev": "vue-cli-service build --mode dev ",
-    "build:inner": "vue-cli-service build --mode stable"
+    "build:test": "vue-cli-service build --mode ctest && gulp move --env ctest",
+    "build:dev": "vue-cli-service build --mode dev && gulp move --env dev",
+    "build:inner": "vue-cli-service build --mode stable && gulp move --env stable"
   },
   "dependencies": {
     "@types/fastclick": "^1.0.28",
