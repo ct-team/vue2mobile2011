@@ -26,4 +26,16 @@ pages/other/index.html
 
 ```
 
+获取 publicpath
+
+```
+//html
+<link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+
+//js
+process.env.BASE_URL
+
+
+```
+
 ## 移除 path
