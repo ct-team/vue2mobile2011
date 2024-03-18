@@ -25,3 +25,5 @@ pages/other/index.html
 </head>
 
 ```
+
+## 移除 path

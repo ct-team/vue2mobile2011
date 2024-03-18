@@ -1,5 +1,4 @@
 import '@/assets/css/reset.css'; // 重置样式
-import '@/assets/js/path'; //设置__webpack_public_path__
 import '@/assets/js/import-vant'; // 导入需要的vant的组件
 import 'ts-polyfill';
 import Vue from 'vue';
