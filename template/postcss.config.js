@@ -3,7 +3,7 @@ const pxtorem = require('postcss-pxtorem');
 const buildConfig = require('./build-user/config');
 module.exports = ({ file }) => {
   let remUnit;
-  if (file && file.dirname && file.dirname.indexOf('vant') > -1) {
+  if (file && file.indexOf('vant') > -1) {
     remUnit = 50;
   } else {
     remUnit = 100;

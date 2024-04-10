@@ -1,41 +1,47 @@
 import { Toast } from 'vant';
 
-/**
- * 全屏loading弹框
- */
-function loading(str: string, isOverlay: boolean) {
-  //   const iconLoding = require('@/assets/img/icon-loading.gif');
+const timerObj: any = {};
+let count = 0;
 
+function showToast(obj?: any) {
+  // const iconLoding = require('@/assets/img/icon-loading.gif');
   Toast.loading({
-    message: str,
+    message: (obj && obj.str) || '',
     forbidClick: true,
     duration: 0,
-    overlay: isOverlay || false
+    overlay: (obj && obj.isOverlay) || false
     // icon: iconLoding
   });
 }
 
-function clear() {
+/**
+ * 全屏loading弹框
+ */
+function showLoading(obj?: any) {
+  count++;
+  showToast(obj);
+  return 'loading-' + count;
+}
+
+function hideLoading(name?: any) {
+  if (timerObj[name]) {
+    clearTimeout(timerObj[name]);
+    delete timerObj[name];
+    Toast.clear();
+    return;
+  }
   Toast.clear();
 }
 
-function text(str: string) {
+function toastText(str: string, fn?: any) {
   Toast({
     type: 'html',
-    message: `<span style="background-color: rgba(50, 50, 51, 0.88);padding: 8px 12px;border-radius:8px;color:#fff;font-size:14px;">${str}</span>`
+    message: str,
+    className: 'notice-toast',
+    onClose: function () {
+      typeof fn === 'function' ? fn() : '';
+    }
   });
 }
 
-// function confirm(obj: any) {
-//   Dialog.confirm({
-//     title: obj.title,
-//     message: obj.message
-//   });
-// }
-
-export default {
-  loading,
-  clear,
-  text
-  // confirm
-};
+export { showLoading, hideLoading, toastText };

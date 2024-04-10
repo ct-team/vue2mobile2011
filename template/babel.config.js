@@ -11,13 +11,10 @@ module.exports = {
       'vant'
     ],
     [
-      'transform-modules',
+      'component',
       {
-        nat: {
-          transform: 'nat/lib/${member}',
-          preventFullImport: true,
-          kebabCase: true
-        }
+        libraryName: 'nat',
+        styleLibraryName: 'style'
       }
     ]
   ]

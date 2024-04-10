@@ -1,16 +1,41 @@
-import comm from './comm';
+import Interfaces from '../interfaces';
+import { Http } from 'nat';
+import type { TypeAjaxCllback, TypeCompleteFun } from '@/types/common.d';
 
-// 我的兑换券数量
-const getLeftNum = (vm: any, params: any) => {
-  return comm.get(vm, vm.$interfaces.getLeftNum, params);
+const getGoodsList = (params: any, complete?: TypeCompleteFun): TypeAjaxCllback => {
+  return Http.ajax({
+    method: 'post',
+    url: Interfaces.getGoodsList,
+    data: params,
+    complete
+  });
 };
 
-// 查询指定日期用户会过期兑换券数量
-const getExpireNum = (vm: any, params: any) => {
-  return comm.get(vm, vm.$interfaces.getExpireNum, params);
+const getGoodsInfo = (params: any, complete?: TypeCompleteFun): TypeAjaxCllback => {
+  return Http.ajax({
+    method: 'get',
+    url: Interfaces.getGoodsInfo,
+    data: params,
+    complete
+  });
 };
 
-export default {
-  getLeftNum,
-  getExpireNum
+const getPageOrder = (params: any, complete?: TypeCompleteFun): TypeAjaxCllback => {
+  return Http.ajax({
+    method: 'get',
+    url: Interfaces.getPageOrder,
+    data: params,
+    complete
+  });
 };
+
+const directExchange = (params: any, complete?: TypeCompleteFun): TypeAjaxCllback => {
+  return Http.ajax({
+    method: 'post',
+    url: Interfaces.directExchange,
+    data: params,
+    complete
+  });
+};
+
+export { getGoodsList, getGoodsInfo, getPageOrder, directExchange };

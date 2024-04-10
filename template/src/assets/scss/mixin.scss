@@ -187,11 +187,11 @@
 
 /* 字体 大小，颜色 */
 
-// @mixin font-sc($size, $color, $import: $important) {
+// @mixin fc($size, $color, $import: $important) {
 //   font-size: $size $import;
 //   color: $color $import;
 // }
-@mixin font-sc($size, $color) {
+@mixin fc($size, $color) {
   font-size: $size;
   color: $color;
 }
@@ -279,4 +279,36 @@
   flex-shrink: $flex-shrink; // 缩小比例(即如果空间不足，该项目将缩小) *负值对该属性无效*.
   flex-basis: $flex-basis; // 分配多余空间之前，项目占据的主轴空间
   align-self: $align-self; // 允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性(继承父元素的align-items属性，如果没有父元素，则等同于stretch).
+}
+
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 4px; //修改滚动条宽度
+    &:horizontal {
+      height: 2px; //水平方向滚动条
+    }
+    &:vertical {
+      width: 2px; //垂直方向滚动条
+    }
+  }
+  // 滚动条中的滑块
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #BCBCC0;
+  }
+  // 滚动条中的外层轨道
+  &::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background-color: transparent;
+  }
+  // 滚动条中的两端箭头按钮
+  &::-webkit-scrollbar-button {
+    background-color: transparent;
+    width: 0;
+    height: 0;
+  }
+  // 水平方向和垂直方向滚动条交接处
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
 }

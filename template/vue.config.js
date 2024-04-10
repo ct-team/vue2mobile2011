@@ -1,15 +1,10 @@
-// const { defineConfig } = require("@vue/cli-service");
-// module.exports = defineConfig({
-//   transpileDependencies: true,
-// });
 const buildConfig = require('./build-user/config');
 const buildTool = require('./build-user/tool');
-//const buildCopy = require('./build-user/copy');
-const IS_PROD = process.env.NODE_ENV === 'production';
-// const autoprefixer = require('autoprefixer');
+const IS_PROD = process.env.NODE_ENV !== 'development';
 const tsImportPluginFactory = require('ts-import-plugin');
 const webpackMerge = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   //lintOnSave: true,
   parallel: false,

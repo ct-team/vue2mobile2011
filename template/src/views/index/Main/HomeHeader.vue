@@ -1,19 +1,16 @@
 <template>
   <div class="homeheader">
-    <div class="homeheader-top" v-show="expiredCount > 0">
+    <div class="homeheader__top" v-show="expiredCount > 0">
       提示：您有{{ expiredCount }}张礼券将于{{ expiredMonth }}月01日过期
     </div>
 
-    <div class="homeheader-info">
+    <div class="homeheader__info">
       <div class="left">
         <div class="my-giftcoupon">
-          <span class="ft-1">
-            我的礼券
-            <router-link :to="rulePage" class="icon-question-mark"></router-link>
-          </span>
+          <span class="ft-1">我的礼券</span>
           <router-link :to="recordListPage" class="ft-2">明细&nbsp;></router-link>
         </div>
-        <div class="giftcoupon-count">{{ giftCoupon }}</div>
+        <div class="giftcoupon-count">{{ fmtNum(giftCoupon) }}</div>
       </div>
     </div>
   </div>
@@ -21,21 +18,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import usertickets from '@/api/ajax/usertickets';
-import ajaxParamsComm from './js/ajax-params-comm';
+import { getLeftNum, getExpireNum } from '@/api/ajax/activity';
 import Constant from '@/router/constant';
+import { thousandSeparator } from '@/assets/js/fmt-number';
 
-@Component({})
+@Component
 export default class HomeHeader extends Vue {
-  $envdata: any;
-  $gData: any;
   expiredMonth: number | string = 0; // 过期月份
   expiredCount: number = 0; // 过期的数量
   giftCoupon: number | string = '--'; // 礼券数量
-
-  get rulePage() {
-    return { path: `/${Constant.RULE}` };
-  }
 
   get recordListPage() {
     return { path: `/${Constant.RECORDLIST}` };
@@ -43,7 +34,7 @@ export default class HomeHeader extends Vue {
 
   // 签到地址
   get signUrl() {
-    return this.$envdata.signUrl;
+    return process.env.VUE_APP_SIGN_URL;
   }
 
   mounted() {
@@ -51,17 +42,16 @@ export default class HomeHeader extends Vue {
     this.expiredMonth = this.getExpiredMonth();
   }
 
-  private initData() {
-    usertickets.getLeftNum(this, ajaxParamsComm(this)).then((res: any) => {
-      if (res.Status) {
+  initData() {
+    getLeftNum().then((res: any) => {
+      if (res.Code === 0) {
         this.giftCoupon = res.Data;
       } else {
         this.giftCoupon = '--';
       }
     });
-
-    usertickets.getExpireNum(this, ajaxParamsComm(this)).then((res: any) => {
-      if (res.Status) {
+    getExpireNum().then((res: any) => {
+      if (res.Code === 0) {
         this.expiredCount = res.Data;
       } else {
         this.expiredCount = 0;
@@ -69,9 +59,14 @@ export default class HomeHeader extends Vue {
     });
   }
 
-  private getExpiredMonth() {
+  getExpiredMonth() {
     const curMonth = new Date().getMonth() + 1;
     return curMonth + 1 > 12 ? '01' : curMonth + 1;
+  }
+
+  fmtNum(n: any) {
+    if (n === '--') return n;
+    return thousandSeparator(n);
   }
 }
 </script>
@@ -81,7 +76,7 @@ export default class HomeHeader extends Vue {
   padding-bottom: 20px;
   background-color: #f7f7f7;
 
-  &-top {
+  &__top {
     width: 100%;
     padding: 20px 0 20px 40px;
     box-sizing: border-box;
@@ -90,7 +85,7 @@ export default class HomeHeader extends Vue {
     font-size: 28px;
   }
 
-  &-info {
+  &__info {
     display: flex;
     justify-content: space-between;
     padding: 20px 40px;
@@ -106,22 +101,17 @@ export default class HomeHeader extends Vue {
         margin-right: 25px;
 
         .ft-1 {
-          @include font-sc(32px, $ft-gray-1);
+          @include fc(32px, $ft-gray-1);
           margin-bottom: 5px;
-          .icon-question-mark {
-            display: inline-block;
-            @include wh(32px, 32px);
-            @include bgimg-stretch('../../assets/img/icon-question-mark.png');
-          }
         }
 
         .ft-2 {
-          @include font-sc(24px, $ft-gray-2);
+          @include fc(24px, $ft-gray-2);
         }
       }
 
       .giftcoupon-count {
-        @include font-sc(52px, $ft-gray-3);
+        @include fc(52px, $ft-gray-3);
       }
     }
   }

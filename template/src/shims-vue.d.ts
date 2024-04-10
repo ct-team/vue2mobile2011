@@ -4,3 +4,4 @@ declare module '*.vue' {
 }
 
 declare module 'nat';
+declare module 'mitt';

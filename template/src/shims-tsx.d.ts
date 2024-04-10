@@ -10,8 +10,8 @@ declare global {
     }
   }
   interface Window {
-    CTPrefConfig: string;
     HtmlInterface: any;
+    _dlk: any;
   }
 }
 
@@ -19,11 +19,6 @@ declare module 'vue/types/vue' {
   interface Vue {
     $route: Route;
     $router: VueRouter;
-    $http: any;
-    $eventbus: any;
-    $envdata: any;
-    $gData: any;
-    $bridge: any;
-    $Toast: any;
+    $nat: any;
   }
 }

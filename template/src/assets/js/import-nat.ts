@@ -1,10 +1,22 @@
 import Vue from 'vue';
 import { Http, AppBridge } from 'nat';
+import type { ResponseInfo } from '@/types/common.d';
 
 // 响应失败拦截器
-const interceptError = function (res: any) {
+const interceptError: any = function (res: ResponseInfo, config: any) {
   // 对响应失败数据做点什么
   // console.log(res, 'interceptError');
+
+  if (window._dlk) {
+    window._dlk.push({
+      ec: 1010044,
+      c: JSON.stringify(res), //内容
+      s1: config.url, //接口地址
+      s2: JSON.stringify(config.data), //接口参数
+      s3: 'ajax' //类型
+    });
+  }
+
   Vue.prototype.$Toast.clear();
   if (res.Code === 555) {
     Vue.prototype.$dialog.alert({
@@ -17,10 +29,20 @@ const interceptError = function (res: any) {
   }
 };
 
-// 响应成功拦截器 res: any
-const interceptorSuccess = function () {
+// 响应成功拦截器
+const interceptorSuccess: any = function (res: ResponseInfo, config: any) {
   // 对响应成功数据做点什么
   // console.log(res, 'interceptorSuccess');
+
+  if (res.Code !== 0 && window._dlk) {
+    window._dlk.push({
+      ec: 1010044,
+      c: JSON.stringify(res), //内容
+      s1: config.url, //接口地址
+      s2: JSON.stringify(config.data), //接口参数
+      s3: 'ajax' //类型
+    });
+  }
 };
 
 // 请求拦截器 res: any

@@ -38,4 +38,16 @@ process.env.BASE_URL
 
 ```
 
-## 移除 path
+## 环境变量
+
+使用 `process.env` 获取 env
+不要使用`process.env.NODE_ENV`
+
+```html
+<% if(process.env.VUE_APP_ENV !=="production" ) { %>
+<script src="//static.tcy365.com/cdn/eruda/1.5.4/eruda.js"></script>
+<script>
+  eruda.init();
+</script>
+<% } %>
+```

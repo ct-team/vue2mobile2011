@@ -1,10 +1,13 @@
 <template>
-  <van-dialog v-model="isShow" get-container="#app" className="basedialog" @close="close">
-    <i class="icon-close" @click="handleClose"></i>
+  <van-dialog
+    v-model="isShow"
+    get-container="body"
+    :className="['basedialog', clsname]"
+    @close="close"
+  >
+    <i class="icon-close" @click="close" v-if="showClose"></i>
     <slot name="top">
-      <div class="top">
-        {{ title }}
-      </div>
+      <div class="top"></div>
     </slot>
     <slot name="center"></slot>
     <slot name="bottom"></slot>
@@ -17,12 +20,14 @@ import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator';
 @Component
 export default class BaseDialog extends Vue {
   @Prop({ type: Boolean, default: false }) show!: boolean;
-  @Prop({ type: String, default: '提示' }) private title!: string;
+  @Prop({ type: Boolean, default: false }) showClose!: boolean;
+  @Prop({ type: String, default: '' }) title!: string;
+  @Prop({ type: String, default: '' }) clsname!: string;
 
-  private isShow: boolean = false;
+  isShow: boolean = false;
 
   @Watch('show')
-  public onShow(newVal: boolean, oldVal: boolean): any {
+  onShow(newVal: boolean, oldVal: boolean) {
     if (newVal !== oldVal) {
       this.isShow = this.show;
     }
@@ -30,10 +35,6 @@ export default class BaseDialog extends Vue {
 
   @Emit()
   close() {}
-
-  private handleClose() {
-    this.close();
-  }
 }
 </script>
 
@@ -47,16 +48,16 @@ export default class BaseDialog extends Vue {
 
 .basedialog {
   padding-bottom: 38px;
-  width: 660px; // 弹窗-宽
+  width: 620px; // 弹窗-宽
   .icon-close {
     z-index: 1;
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 5px;
+    top: 5px;
     content: '';
     display: inline-block;
     @include wh(60px, 60px);
-    @include bgimg-stretch('../assets/img/icon-close.png');
+    @include bgimg-stretch('~@/assets/img/icon-close.png');
   }
 
   .top {

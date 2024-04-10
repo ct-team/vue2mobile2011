@@ -8,7 +8,10 @@
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1" />
-    <meta name="AppEnv" content="<%=process.env.VUE_APP_ENV%>" />
+    <meta
+      name="vertime"
+      content="<%=new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()%>"
+    />
     <link rel="shortcut icon" href="//static.tcy365.com/uc/common/images/favicon.ico" />
     <script>
       !(function (e, t) {
@@ -26,7 +29,7 @@
             t.body ? (t.body.style.fontSize = '16px') : t.addEventListener('DOMContentLoaded', e);
           })(),
           i(),
-          // e.addEventListener('resize', i),
+          e.addEventListener('resize', i),
           e.addEventListener('pageshow', function (e) {
             e.persisted && i();
           }),
