@@ -1,6 +1,6 @@
 <template>
   <div class="base-cardlist">
-    <div class="stock">库存：{{ this.total }}</div>
+    <div class="stock">库存：{{ total }}</div>
     <div class="cardlist">
       <div class="cardlist__table">
         <div class="table__head">
@@ -129,18 +129,18 @@ export default class BaseCardList extends Vue {
     this.isFinished = false;
   }
 
-  formatNumber(n: number) {
+  formatNumber(n: number): any {
     return fmtNumber(n);
   }
 
-  formatCard(value: string) {
+  formatCard(value: string): string {
     if (value.length >= 16) {
       return value.substring(0, 8) + '...';
     }
     return value;
   }
 
-  formatTime(value: number) {
+  formatTime(value: number): string {
     return dayjs(value).format('YYYY-MM-DD');
   }
 }
