@@ -18,6 +18,7 @@ module.exports = {
     // When running tests for the template, this adds answers for the selected scenario
     before: addTestAnswers,
   },
+  skipInterpolation: ['src/**/*.vue', 'node_modules/**'],
   helpers: {
     if_or(v1, v2, options) {
       if (v1 || v2) {
@@ -59,19 +60,19 @@ module.exports = {
 
     const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName);
 
-    // if (data.autoInstall) {
-    //   installDependencies(cwd, data.autoInstall, green)
-    //     .then(() => {
-    //       return runLintFix(cwd, data, green)
-    //     })
-    //     .then(() => {
-    //       printMessage(data, green)
-    //     })
-    //     .catch(e => {
-    //       console.log(chalk.red('Error:'), e)
-    //     })
-    // } else {
-    printMessage(data, chalk);
-    // }
+    if (data.autoInstall) {
+      installDependencies(cwd, data.autoInstall, green)
+        .then(() => {
+          return runLintFix(cwd, data, green);
+        })
+        .then(() => {
+          printMessage(data, green);
+        })
+        .catch((e) => {
+          console.log(chalk.red('Error:'), e);
+        });
+    } else {
+      printMessage(data, chalk);
+    }
   },
 };
