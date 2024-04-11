@@ -110,6 +110,7 @@ export default class BindPhone extends Vue {
     if (this.isNeedRepeatSend) {
       return RESEND_TEXT;
     }
+    return COUNTDOWN_TEXT;
   }
   // 发送验证码
   doVerifyCode() {
