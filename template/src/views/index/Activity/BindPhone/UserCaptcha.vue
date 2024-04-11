@@ -14,9 +14,7 @@
   >
     <template #button>
       <a href="javascript:;" class="btn__sendcode" @click="doVerifyCode">
-        <span v-if="!isSending">
-          {{ getCodeText() }}
-        </span>
+        <span v-if="!isSending">获取验证码</span>
         <van-loading color="#fe522e" v-if="isSending" />
       </a>
     </template>
