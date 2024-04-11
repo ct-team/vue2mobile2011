@@ -15,7 +15,7 @@
     <template #button>
       <a href="javascript:;" class="btn__sendcode" @click="doVerifyCode">
         <span v-if="!isSending">
-          {{ isShowCountdown ? countdown + `s` : isNeedRepeatSend ? '重发验证码' : '获取验证码' }}
+          {{ getCodeText() }}
         </span>
         <van-loading color="#fe522e" v-if="isSending" />
       </a>
@@ -40,7 +40,8 @@ export default class BindPhone extends Vue {
   isSending: boolean = false;
 
   value: string = '';
-  options: object = {
+
+  options: any = {
     icon: require('@/assets/img/activity/icon-msgcode.png'),
     rules: [
       {
@@ -90,7 +91,26 @@ export default class BindPhone extends Vue {
   formatter(val: any) {
     return val.replace(/\D/, '');
   }
+  getCodeText() {
+    // 定义相关文本为常量，方便维护和国际化处理
+    const COUNTDOWN_TEXT = '获取验证码';
+    const RESEND_TEXT = '重发验证码';
 
+    // 早期返回减少嵌套，增加代码可读性
+    if (this.isShowCountdown) {
+      // 确保countdown为数字且非负，否则进行适当的错误处理或默认值设置
+      if (typeof this.countdown !== 'number' || this.countdown < 0) {
+        // 这里根据实际需求进行错误处理，例如返回默认值或显示错误信息
+        return COUNTDOWN_TEXT;
+      }
+      return this.countdown + `s`;
+    }
+
+    // countdown部分处理完毕后，再判断是否需要重发验证码
+    if (this.isNeedRepeatSend) {
+      return RESEND_TEXT;
+    }
+  }
   // 发送验证码
   doVerifyCode() {
     if (this.isShowCountdown) {
